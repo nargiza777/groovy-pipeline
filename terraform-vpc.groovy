@@ -29,28 +29,28 @@ node{
             stage("Terrraform Init"){
                 sh """
                     bash setenv.sh ${environment}.tfvars
-                    terraform init
+                    terraform-0.13 init
                 """
             }        
             
             if (terraform_apply.toBoolean()) {
                 stage("Terraform Apply"){
                     sh """
-                        terraform apply -var-file ${environment}.tfvars -auto-approve
+                        terraform-0.13 apply -var-file ${environment}.tfvars -auto-approve
                     """
                 }
             }
             else if (terraform_destroy.toBoolean()) {
                 stage("Terraform Destroy"){
                     sh """
-                        terraform destroy -var-file ${environment}.tfvars -auto-approve
+                        terraform-0.13 destroy -var-file ${environment}.tfvars -auto-approve
                     """
                 }
             }
             else {
                 stage("Terraform Plan"){
                     sh """
-                        terraform plan -var-file ${environment}.tfvars
+                        terraform-0.13 plan -var-file ${environment}.tfvars
                     """
                 }
             }
